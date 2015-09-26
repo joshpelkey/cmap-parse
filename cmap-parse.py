@@ -99,6 +99,9 @@ for cmap_file in files:
 		# list comprehension python leetness ftw
 		common_edges = (list (n for n in xcopy[0].edges () if n in xcopy[1].edges ()))
 
+		# Update Sept 26, 2015
+		# I think I need to find common nodes and then count all edges that are not the same
+		
 		# if not empty set, print some stuff
 		#if (common_edges):
 			#print (common_edges)
