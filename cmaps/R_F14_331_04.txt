@@ -1,0 +1,18 @@
+Environmental	meaning the project is	not harmful to animals or humans
+Sustainability	is encompassed in the following pillars:	Social
+Economic	meaning the project is	profitable
+Sustainability	is encompassed in the following pillars:	Economic
+Social	meaning the project	is legal
+meets budget limitations	linkage btwn. pillars	budget constraints
+advanced from a technological standpoint	but is within certain constraints	budget constraints
+Economic	meaning the project is	meets budget limitations
+profitable	and can	benefit(s) some community
+Technical	meaning the project is	advanced from a technological standpoint
+Social	meaning the project	benefit(s) some community
+advanced from a technological standpoint	but is within certain constraints	including local availability
+Sustainability	is encompassed in the following pillars:	Environmental
+Sustainability	is encompassed in the following pillars:	Technical
+benefit(s) some community	linkage btwn. pillars	including local availability
+not harmful to animals or humans	linkage btwn. pillars	benefit(s) some community
+Social	meaning the project	meets all moral standards
+Environmental	meaning the project is	not detrimental to other features of Earth

@@ -1,0 +1,42 @@
+Economical	Knowledge needed	Accounting
+Engineering	Education required	Physics
+Verbal	Forms of verbal	Speech
+Enviromental	Overlapping subjects	Technical
+Social	Knowledge needed	Ethics
+Finances	Education Required	Statistics
+Communication	Main forms of communication	Verbal
+Verbal	Forms of verbal	Debate
+Non verbal	Forms of non verbal	Writing
+Social	Overlapping subjects	Economical
+Social	Knowledge needed	Sociology
+Technology	Prior knowledge	Engineering
+Science	Comes in varietys	Biology
+Sustainability	4 Piliars Sustainability	Economical
+Enviromental	Knowledge needed	Physics
+Sustainability	4 Piliars Sustainability	Enviromental
+Enviromental	Knowledge needed	Math
+Sustainability	4 Piliars Sustainability	Social
+Technology	Prior knowledge	Computers
+Social	Knowledge needed	Morality
+Communication	Main forms of communication	Non verbal
+Enviromental	Knowledge needed	Science
+Technical	Knowledge needed	Science
+Statistics	Education required	Math
+Sustainability	4 Piliars Sustainability	Technical
+Sociology	Components	Communication
+Economical	Knowledge needed	Communication
+Technical	Knowledge needed	Technology
+Technical	Knowledge needed	Math
+Economical	Knowledge needed	Ethics
+Accounting	Project Management	Finances
+Science	Comes in varietys	Physics
+Verbal	Presentation	Non verbal
+Science	Comes in varietys	Chemistry
+Sociology	Components	People
+Enviromental	Knowledge needed	Biology
+Verbal	Forms of verbal	Arugment
+Economical	Knowledge needed	Finances
+Accounting	Education Required	Statistics
+Enviromental	Overlapping subjects	Social
+Non verbal	Forms of non verbal	Sign language
+Engineering	Education required	Math

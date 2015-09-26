@@ -1,0 +1,31 @@
+Economic issues	Such as	Poverty
+JMU Engineering	which has a	Philosophy
+Careful Planning	To put first the	Wellbeing of Future Generations
+Design Method	That Uses	Human Centered Thinking
+Design Method	Based off of a	Philosophy
+Design Method	That Uses	Careful Planning
+Enviornmental issues	Such as	Polution
+Design Method	That Uses	Lifecycle Analysis
+Philosophy	That puts importance on	Wellbeing of the Enviornment
+Lifecycle Analysis	To put first the	Wellbeing of Future Generations
+Economic issues	Such as	Government Regulations
+Sustainability	Is a focus at	JMU Engineering
+Careful Planning	To put first the	Wellbeing of the Enviornment
+Wellbeing of Future Generations	By accounting for	Economic issues
+Economic issues	Such as	Profit
+Philosophy	Is a	Design Method
+Lifecycle Analysis	To put first the	Wellbeing of the Enviornment
+Wellbeing of Future Generations	By accounting for	Enviornmental issues
+Enviornmental issues	Such as	Endangered Species
+Philosophy	That puts importance on	Wellbeing of Future Generations
+Wellbeing of the Enviornment	By accounting for	Economic issues
+Wellbeing of the Enviornment	By accounting for	Enviornmental issues
+Social issues	Such as	Culture
+Social issues	Such as	Poverty
+Human Centered Thinking	To put first the	Wellbeing of the Enviornment
+Human Centered Thinking	To put first the	Wellbeing of Future Generations
+Wellbeing of Future Generations	By accounting for	Social issues
+Sustainability	Is a	Design Method
+Enviornmental issues	Such as	Natural Resources
+JMU Engineering	Which teach a	Design Method
+Wellbeing of the Enviornment	By accounting for	Social issues

@@ -1,0 +1,46 @@
+Stress	Depends on	Meaningful
+Economically	looks at if something is	Profitable
+Issues	Lead to	War
+Indiviual	Depends on	Relationships
+Issues	Such as	Over Population
+lack of fresh water	one solution	de salination
+Preserve the environment	by looking into	Water Waste
+Alternative Fuels	Such as	Battery Power
+Issues	Such as	Diffeering Cultures
+Stress	Depends on	Relationships
+Economically	looks at if something is	Self Sustaining
+Stress	Depends on	Self Sustaining
+Cars	Example is	Battery Power
+Alternative Fuels	Such as	Nucelar Power
+Green House Gases	trying to achieve	Zero Emmsion
+Alternative Fuels	Such as	Coal Power
+Stress	Depends on	Happiness
+Deforestation	Causes	Scars the land
+Society	has	Issues
+Issues	Such as	Poverty
+Zero Emmsion	From	Planes
+Sustainability	Has Many Sub Categories	Environmentally
+Preserve the environment	by looking into	Alternative Fuels
+Environmentally	Trying to	Preserve the environment
+Issues	Such as	Religion
+Zero Emmsion	From	Cars
+Preserve the environment	by looking into	Green House Gases
+Alternative Fuels	Some might not be	Economically
+Over Population	Which Leads too	running out of resources
+Zero Emmsion	From	Factories
+Socially	looking at the	Indiviual
+Sustainability	Has Many Sub Categories	Economically
+Water Waste	because there is a	lack of fresh water
+Deforestation	Causes	extinctsion
+Economically	looks at if something is	Feasible
+Economically	looks at if something is	Realistic
+Issues	Lead to	Social Conflict
+Sustainability	Has Many Sub Categories	Socially
+Indiviual	Depends on	Self Sustaining
+Issues	Such as	Sexuality
+Indiviual	Depends on	Meaningful
+running out of resources	????	lack of fresh water
+Socially	looking at the	Society
+Indiviual	Depends on	Happiness
+Alternative Fuels	Such as	Solar Power
+Preserve the environment	by looking into	Deforestation

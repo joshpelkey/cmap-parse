@@ -1,0 +1,62 @@
+Social	Ethics	Impact on economy
+Types	Renewable	Wind
+Social	Demand	Population
+Consumer demand	Renewable	Hydroelectric
+Geothermal	Renewable	Solar
+How long it will be used	Need/Want	Population
+Manufacturing	Lifespan	Usable life
+Population	How much	Consumer demand
+Social	Ethics	Inpact on enviroment
+Economic	Ethics	Impact on others
+Economic	Ethics	Impact on economy
+Sustainability	Types	Economic
+Population	Change	Birth Rate
+How long it will be used	Ethics	Corporate responsibility
+Population	Change	Disease
+How long it will be used	Ethics	Impact on others
+How long it will be used	Ethics	Personal
+Economic	Ethics	Inpact on enviroment
+Materials	Non renewable	Plastic
+Manufacturing	Market	How long it will be used
+Materials	Renewable	Leather
+Consumer demand	Market	How long it will be used
+Enviormental	Ethics	Inpact on enviroment
+Economic	Ethics	Corporate responsibility
+Types	Renewable	Hydroelectric
+Geothermal	Renewable	Hydroelectric
+Materials	Renewable	Consumer demand
+Social	Ethics	Impact on others
+Consumer demand	Renewable	Solar
+Manufacturing	Made of	Materials
+Types	Non Renewable	Natural Gas
+Lifespan	How long will it last	Manufacturing
+Enviormental	Energy	Manufacturing
+How long it will be used	Ethics	Inpact on enviroment
+Consumer demand	Renewable	Wind
+Types	Non Renewable	Nuclear
+Types	Non Renewable	Oil
+Lifespan	Energy	Population
+Manufacturing	Lifespan	Planned Obsolence
+Lifespan	Energy	Types
+Sustainability	Types	Enviormental
+Economic	Ethics	Personal
+How long it will be used	Ethics	Impact on economy
+Economic	Cost	Lifespan
+Social	Ethics	Personal
+Lifespan	Energy	Manufacturing
+Natural Gas	Types	Methane
+Types	Renewable	Solar
+Manufacturing	Lifespan	Maintaince
+Social	Ethics	Corporate responsibility
+Geothermal	Renewable	Wind
+Types	Non Renewable	Coal
+Enviormental	Energy	Population
+Materials	Non renewable	Rare
+Natural Gas	Types	Propane
+Enviormental	Ethics	Impact on others
+Enviormental	Energy	Types
+Sustainability	Types	Social
+Enviormental	Ethics	Corporate responsibility
+Materials	Renewable	Wood
+Enviormental	Ethics	Impact on economy
+Enviormental	Ethics	Personal
