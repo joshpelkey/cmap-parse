@@ -1,6 +1,6 @@
 # cmap-parse
 
-Some stuff here about what this is -- which is just a concept mapping parsing script. It counts number of concepts, number of heirarchies, highest heirarchy, and number of crosslinks. This is a work in progress and possibly does not count correctly yet.  Looking in to wxwidgets and how to put this in to a gui as well...
+Some stuff here about what this is -- which is just a concept mapping parsing script. It counts number of concepts, number of hierarchies, highest hierarchy, and number of crosslinks. This is a work in progress and possibly does not count correctly yet.  Looking in to wxwidgets and how to put this in to a gui as well...
 
 Copyright 2015 Josh Pelkey
 
