@@ -1,10 +1,19 @@
 ##
 #
+# cmap-pars.py
 # An attempt to parse concept maps, exported from cmap tools...take one
 #
-# Author:          Josh Pelkey
-# Created:         Sept. 5, 2012
-# Last Modified:   Sept. 12, 2012
+# Copyright 2015 Josh Pelkey
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License. You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License
+# is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing permissions and limitations under the
+# License.
 #
 ##
 
@@ -12,14 +21,6 @@ import glob
 import itertools
 import networkx as nx
 
-print ('#####################################################################')
-print ('# An attempt to parse cmaps, exported from cmap tools...take one')
-print ('#')
-print ('# Author:\t\t Josh Pelkey')
-print ('# Created:\t\t Sept. 5, 2012')
-print ('# Last Modified:\t Sept. 16, 2014 - some very small changes with summing crosslinks') 
-print ('#')
-print ('#####################################################################\n')
 
 # choose directory where cmap txt files are located
 cmap_directory = './cmaps'
