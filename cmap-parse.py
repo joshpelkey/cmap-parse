@@ -84,68 +84,47 @@ for cmap_file in files:
 		subgraph.graph['name'] = x
 		subgraph_list.append (subgraph)
 
-	# let's get cross links
-	# for all combinations of subgraphs (thanks itertools)
-	cross_links_list = []
-	totalcrosslinks = 0
-	for x in (list (itertools.combinations (subgraph_list, r=2))):
 
-		# update 9/23/2015 -- i need to do this to a copy of the graph, ow i'm altering the graph for some comparisons
-		xcopy = []
-		xcopy.append (G.subgraph(x[0]).copy())
-		xcopy.append (G.subgraph(x[1]).copy())
-		
-		#print ('Show common edges in ' + str ([x[0].graph.values (), x[1].graph.values ()]))
-                
-		# list comprehension python leetness ftw
-		common_edges = (list (n for n in xcopy[0].edges () if n in xcopy[1].edges ()))
-
-		# if not empty set, print some stuff
-		#if (common_edges):
-			#print (common_edges)
+	# iterate through the main graph and set all hier attr to zero
+	for x in G:
+		G.node[x]['hier'] = 0
+		#print (x)
 			
-		# remove the common edges
-		xcopy[0].remove_edges_from (common_edges)
-		xcopy[1].remove_edges_from (common_edges)
+	# iterate through the subgraph_list and set all hier attr to zero
+	for x in subgraph_list:
+		#for all the nodes in a subgraph
+		for y in x:		
+			x.node[y]['hier'] = 0
+			#print (y)
+
+	# re-iterate and set heir to an incrementing number across heirarchies,
+	# only if it wasn't set previously (i.e. not part of another heirarchy already
+	hierIter = 1
+	for x in subgraph_list:				
+		for y in x:
+			if x.node[y]['hier'] == 0:
+				for item in subgraph_list:
+					if y in item:
+						item.node[y]['hier'] = hierIter
+						G.node[y]['hier'] = hierIter
+
+				#print (x.node[y]['hier'])
+				#print (x.node[y])
+				#print (G.node[y]['hier'])
+				#print (y)
+		hierIter += 1
+		#print (x.nodes())
+
+	# now i need to find all edges that have two hier node attributes that don't match. these are crosslinks
+	total_crosslinks = 0
+	for x in G.edges():
+		if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
+			if G.node[x[0]]['hier'] != G.node[x[1]]['hier']:
+				#print (str (x[0]) + ' ---- ' + str (x[1]) + 'hier: ' + str (G.node[x[0]]['hier']) + '---- ' + str (G.node[x[1]]['hier']))
+				total_crosslinks += 1
 		
-		#print ('Reprint subgraph')
-		#print (xcopy[0].adj)
-		#print (xcopy[1].adj)
-		
-		# should remove nodes that are not connected to anything
-		xcopy[0].remove_nodes_from (n for n in xcopy[0].nodes () if xcopy[0].degree(n) == 0)
-		xcopy[1].remove_nodes_from (n for n in xcopy[1].nodes () if xcopy[1].degree(n) == 0)
-		
-		#print ('ReReprint subgraph')
-		#print (xcopt[0].adj)
-		#print (xcopy[1].adj)
-		
-		# now count the in degree for common nodes (this is crosslinks?)
-		# seems like current method will count links from the same hierarchy, but this might be best, 
-		# since we can't really say which heirarchy is given to the concept
-		for cl in (xcopy[0].nodes ()):
-			cross_links = {}
-			if cl in xcopy[1].nodes ():
-				cross_links[cl] = xcopy[0].in_degree (cl) + xcopy[1].in_degree (cl)
-				totalcrosslinks = totalcrosslinks + (xcopy[0].in_degree (cl) + xcopy[1].in_degree (cl))
-				cross_links_list.append (cross_links)
-				#print ('Adding crosslinks at ' + cl + ': in_degree(0): ' + str(xcopy[0].in_degree (cl)) + " in_degree(1): " + str(xcopy[1].in_degree (cl)))
-				#print (cross_links_list)
-
-		# I think there is an edge case here where crosslinks come in to the top level heirarchy
-		# We probably have to count the in_degree - 1 for all heirarchies that don't come from top (sustain.)
 
 
-	# total up all the cross links
-	# update 9/23 -- can I divide by the total number of heirarchies to match our 'manual' counts?
-	#print (cross_links_list)
-	#print (totalcrosslinks)
-	total_crosslinks_list = [sum (n.values ()) for n in cross_links_list]
-
-	if not total_crosslinks_list:
-		total_crosslinks_list.append (0)
-
-	total_crosslinks = sum (total_crosslinks_list)
 
 	# print out the stuffs
 	print ('>> Num Concepts: ' + str (num_concepts))
