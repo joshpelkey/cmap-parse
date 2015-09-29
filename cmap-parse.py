@@ -1,6 +1,6 @@
 ##
 #
-# cmap-pars.py
+# cmap-parse.py
 # An attempt to parse concept maps, exported from cmap tools...take one
 #
 # Copyright 2015 Josh Pelkey
@@ -51,9 +51,9 @@ for cmap_file in files:
 	# minus the root node
 	num_concepts = G.order () - 1
 
-	# heirarchy is the out degree of the root node
+	# hierarchy is the out degree of the root node
 	# we assume the root is 'Sustainabiliy'
-	heirarchy = G.out_degree ('Sustainability')
+	hierarchy = G.out_degree ('Sustainability')
 
 	# look at all paths from sustainability to all 
 	# other nodes. no repeated nodes (cycles)
@@ -62,21 +62,22 @@ for cmap_file in files:
 		for path in nx.all_simple_paths (G, source='Sustainability', target=n):
 			paths_list.append (path)
 
-	# highest heirarchy defined here as the max path length
-	highest_heir = max (len (x) for x in paths_list) - 1
+	# highest hierarchy defined here as the max path length
+	highest_hier = max (len (x) for x in paths_list) - 1
 	
 
-	# let's make subgraphs of all heirarchies
+	# let's make subgraphs of all hierarchies
 	# i think we can use these subgraphs to do some
 	# operations and check out cross links
-	heirarchy_list = G.successors ('Sustainability')
+	hierarchy_list = G.successors ('Sustainability')
 	subgraph_list = []
-	for x in heirarchy_list:
+	for x in hierarchy_list:
 		subgraph = nx.MultiDiGraph ()
 		connected_nodes = []
 		for y in G.nodes ():
 			if nx.has_path (G, x, y):
 				connected_nodes.append (y)
+				
 		# the only reason i'm copying the whole graph here
 		# is to set the name attribute right now (for debugging, testing)
 		# we can remove this full copy at the end for efficiency
@@ -97,8 +98,8 @@ for cmap_file in files:
 			x.node[y]['hier'] = 0
 			#print (y)
 
-	# re-iterate and set heir to an incrementing number across heirarchies,
-	# only if it wasn't set previously (i.e. not part of another heirarchy already
+	# re-iterate and set heir to an incrementing number across hierarchies,
+	# only if it wasn't set previously (i.e. not part of another hierarchy already)
 	hierIter = 1
 	for x in subgraph_list:				
 		for y in x:
@@ -128,8 +129,8 @@ for cmap_file in files:
 
 	# print out the stuffs
 	print ('>> Num Concepts: ' + str (num_concepts))
-	print ('>> Heirarchy: ' + str (heirarchy))
-	print ('>> HH: ' + str (highest_heir))
+	print ('>> Hierarchy: ' + str (hierarchy))
+	print ('>> HH: ' + str (highest_hier))
 	print ('>> CL: ' + str (total_crosslinks))
 	# show me cycles
 	#print ('>> Cycles: ' + str (nx.simple_cycles (G)))
