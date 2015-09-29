@@ -47,6 +47,11 @@ for cmap_file in files:
 		edge = line.split ('\t')
 		G.add_edge (edge[0], edge[2], link=edge[1])
 
+	# if 'Sustainability' isn't a concept, fail
+	if 'Sustainability' not in G:
+		print ('>> Sustainability not a concept in the map.')
+		break
+                
 	# number of concepts is the number of nodes
 	# minus the root node
 	num_concepts = G.order () - 1
