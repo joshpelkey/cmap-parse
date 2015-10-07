@@ -5,7 +5,7 @@ class Example(wx.Frame):
 
     def __init__(self, parent, title):    
         super(Example, self).__init__(parent, title=title, 
-            size=(750, 365))
+            size=(750, 350))
 
         self.InitUI()
         self.Centre()
@@ -139,7 +139,13 @@ class Example(wx.Frame):
     def OnHelp(self,e):
         # A message dialog box with an OK button. wx.OK is a standard ID in wxWidgets.
         dlg = wx.MessageDialog( self, "cmap-parse.py\n\
-An attempt to parse concept maps, exported from cmap tools...take one\n\n\
+An attempt to parse concept maps, exported from cmap tools...take one\n\
+------------------------------------------------------------------------------------------\n\n\
+Step 1: Set your root node name. This is the 'top' of each directed multigraph. We will start at this node for many calculations.\n\n\
+Step 2: Choose your cmap files. These must be txt files, exported 'Propositions as text...' from Cmap Tools.\n\n\
+Step 3: Choose your export path and filename. Results will be exported as plain-text.\n\n\
+Step 4: Click Run and go view your results!\n\n\
+------------------------------------------------------------------------------------------\n\
 Copyright 2015 Josh Pelkey\n\n\
 Licensed under the Apache License, Version 2.0 (the \"License\"); you may not\n\
 use this file except in compliance with the License. You may obtain a copy of\n\
