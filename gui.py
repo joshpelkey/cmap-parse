@@ -1,5 +1,28 @@
+##
+#
+# gui.py
+# An attempt to parse concept maps, exported from cmap tools...take one
+#
+# Copyright 2015 Josh Pelkey
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License. You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License
+# is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing permissions and limitations under the
+# License.
+#
+##
+
 import os
 import wx
+import cmap_parse
+
+cmap_files = []
+results = ''
 
 class Example(wx.Frame):
 
@@ -61,6 +84,7 @@ class Example(wx.Frame):
 
         button2 = wx.Button(panel, label="Browse...")
         sizer.Add(button2, pos=(4, 4), flag=wx.TOP|wx.RIGHT, border=5)
+        self.Bind(wx.EVT_BUTTON, self.OnOpen2, button2)
 
         # Optional Attributes which do nothing
         sb = wx.StaticBox(panel, label="Optional Attributes")
@@ -83,6 +107,7 @@ class Example(wx.Frame):
         # Run the codes
         button4 = wx.Button(panel, label="Run")
         sizer.Add(button4, pos=(7, 3))
+        self.Bind(wx.EVT_BUTTON, self.OnRun, button4)
         
 
         # Get me out of here
@@ -96,9 +121,8 @@ class Example(wx.Frame):
         panel.SetSizer(sizer)
 
 
-    # Open up a directory
+    # Open up all your files
     def OnOpen(self, evt):
-        print("CWD: %s\n" % os.getcwd())
 
         # Create the dialog. In this case the current directory is forced as the starting
         # directory for the dialog, and no default file name is forced. This can easilly
@@ -115,24 +139,49 @@ class Example(wx.Frame):
             style=wx.OPEN | wx.MULTIPLE | wx.CHANGE_DIR
             )
 
+        
         # Show the dialog and retrieve the user response. If it is the OK response, 
         # process the data.
         if dlg.ShowModal() == wx.ID_OK:
-            # This returns a Python list of files that were selected.
-            paths = dlg.GetPaths()
-
-            print('You selected %d files:' % len(paths))
-
-            for path in paths:
-                print('           %s\n' % path)
-
-        # Compare this with the debug above; did we change working dirs?
-        print("CWD: %s\n" % os.getcwd())
+            # set us up the file to pass in
+            global cmap_files
+            cmap_files = dlg.GetPaths()
 
         # Destroy the dialog. Don't do this until you are done with it!
         # BAD things can happen otherwise!
         dlg.Destroy()
 
+    # Save it out
+    def OnOpen2(self, evt):
+
+        # Create the dialog. In this case the current directory is forced as the starting
+        # directory for the dialog, and no default file name is forced. This can easilly
+        # be changed in your program. This is an 'save' dialog.
+        #
+        # Finally, if the directory is changed in the process of getting files, this
+        # dialog is set up to change the current working directory to the path chosen.
+        dlg = wx.FileDialog(
+            self, message="Save your results",
+            defaultDir=os.getcwd(), 
+            defaultFile="CmapResults.txt",
+            style=wx.SAVE | wx.OVERWRITE_PROMPT
+            )
+
+        # Show the dialog and retrieve the user response. If it is the OK response, 
+        # process the data.
+        if dlg.ShowModal() == wx.ID_OK:
+            # This returns a Python list of files that were selected.
+            global results
+            results = dlg.GetPath()
+
+        # Destroy the dialog. Don't do this until you are done with it!
+        # BAD things can happen otherwise!
+        dlg.Destroy()
+
+
+    # Run the program...finally
+    def OnRun (self,e):
+        cmap_parse.CmapParse (cmap_files, results)
 
 
     # Help text
@@ -141,7 +190,7 @@ class Example(wx.Frame):
         dlg = wx.MessageDialog( self, "cmap-parse.py\n\
 An attempt to parse concept maps, exported from cmap tools...take one\n\
 ------------------------------------------------------------------------------------------\n\n\
-Step 1: Set your root node name. This is the 'top' of each directed multigraph. We will start at this node for many calculations.\n\n\
+Step 1: Set your root node name. This is the 'top' of your concept map. We will start at this node for many calculations.\n\n\
 Step 2: Choose your cmap files. These must be txt files, exported 'Propositions as text...' from Cmap Tools.\n\n\
 Step 3: Choose your export path and filename. Results will be exported as plain-text.\n\n\
 Step 4: Click Run and go view your results!\n\n\
