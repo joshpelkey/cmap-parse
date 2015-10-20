@@ -56,17 +56,17 @@ class Example(wx.Frame):
         text2 = wx.StaticText(panel, label="Root Concept")
         sizer.Add(text2, pos=(2, 0), flag=wx.LEFT, border=10)
 
-        tc1 = wx.TextCtrl(panel)
-        sizer.Add(tc1, pos=(2, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
-        tc1.ChangeValue("Sustainability")
+        self.tc1 = wx.TextCtrl(panel)
+        sizer.Add(self.tc1, pos=(2, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
+        self.tc1.ChangeValue("Sustainability")
 
 
         # Import the results choice
-        text3 = wx.StaticText(panel, label="Import concept maps...")
+        text3 = wx.StaticText(panel, label="Select concept maps...")
         sizer.Add(text3, pos=(3, 0), flag=wx.LEFT|wx.TOP, border=10)
 
-        tc2 = wx.TextCtrl(panel)
-        sizer.Add(tc2, pos=(3, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND, 
+        self.tc2 = wx.TextCtrl(panel, style=wx.TE_READONLY)
+        sizer.Add(self.tc2, pos=(3, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND, 
             border=5)
 
         button1 = wx.Button(panel, label="Browse...")
@@ -75,11 +75,11 @@ class Example(wx.Frame):
 
 
         # Export the results choice
-        text4 = wx.StaticText(panel, label="Export results to...")
+        text4 = wx.StaticText(panel, label="Save results to...")
         sizer.Add(text4, pos=(4, 0), flag=wx.TOP|wx.LEFT, border=10)
 
-        tc3 = wx.TextCtrl(panel)
-        sizer.Add(tc3, pos=(4, 1), span=(1, 3), 
+        self.tc3 = wx.TextCtrl(panel, style=wx.TE_READONLY)
+        sizer.Add(self.tc3, pos=(4, 1), span=(1, 3), 
             flag=wx.TOP|wx.EXPAND, border=5)
 
         button2 = wx.Button(panel, label="Browse...")
@@ -146,6 +146,12 @@ class Example(wx.Frame):
             # set us up the file to pass in
             global cmap_files
             cmap_files = dlg.GetPaths()
+            filenames = dlg.GetFilenames()
+
+        if len(filenames) > 1:
+            self.tc2.ChangeValue(filenames[0] + ' + ' + str(len(cmap_files)-1) + ' more files')
+        else:
+            self.tc2.ChangeValue(filenames[0])
 
         # Destroy the dialog. Don't do this until you are done with it!
         # BAD things can happen otherwise!
@@ -174,6 +180,8 @@ class Example(wx.Frame):
             global results
             results = dlg.GetPath()
 
+        self.tc3.ChangeValue(results)
+
         # Destroy the dialog. Don't do this until you are done with it!
         # BAD things can happen otherwise!
         dlg.Destroy()
@@ -181,7 +189,19 @@ class Example(wx.Frame):
 
     # Run the program...finally
     def OnRun (self,e):
-        cmap_parse.CmapParse (cmap_files, results)
+        if self.tc2.IsEmpty():
+            dlg = wx.MessageDialog( self, "Please select your cmap files.", "Missing info", wx.OK)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+        elif self.tc3.IsEmpty():
+            dlg = wx.MessageDialog( self, "Please choose where to save results.", "Missing info", wx.OK)
+            dlg.ShowModal()
+            dlg.Destroy()
+            
+        else:
+            root_concept = self.tc1.GetValue ()
+            cmap_parse.CmapParse (cmap_files, results, root_concept)
 
 
     # Help text

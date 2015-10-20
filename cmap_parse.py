@@ -22,7 +22,7 @@ import itertools
 import networkx as nx
 
 
-def CmapParse (cmap_files, result):
+def CmapParse (cmap_files, result, root_concept):
                 
         # iterate over all the files and start doing stuffs
 	for cmap_file in cmap_files:
@@ -48,16 +48,16 @@ def CmapParse (cmap_files, result):
                                 print ('>> Text file not formatted correctly.')
                                 textFormatCorrect = False
                                 break
-                        
-			G.add_edge (edge[0], edge[2], link=edge[1])
+
+			G.add_edge (edge[0].lower(), edge[2].lower(), link=edge[1].lower())
 
 		# if the file had a line without 3 items, break completely
                 if not textFormatCorrect:
                         break
 
 		# if 'Sustainability' isn't a concept, fail
-		if 'Sustainability' not in G:
-			print ('>> Sustainability not a concept in the map.')
+		if root_concept.lower() not in G:
+			print ('>> ' + root_concept.lower() + ' not a concept in the map.')
 			break
 			
 		# number of concepts is the number of nodes
@@ -66,13 +66,13 @@ def CmapParse (cmap_files, result):
 
 		# hierarchy is the out degree of the root node
 		# we assume the root is 'Sustainabiliy'
-		hierarchy = G.out_degree ('Sustainability')
+		hierarchy = G.out_degree (root_concept.lower())
 
 		# look at all paths from sustainability to all 
 		# other nodes. no repeated nodes (cycles)
 		paths_list = []
 		for n in G.nodes ():
-			for path in nx.all_simple_paths (G, source='Sustainability', target=n):
+			for path in nx.all_simple_paths (G, source=root_concept.lower(), target=n):
 				paths_list.append (path)
 
 		# highest hierarchy defined here as the max path length
@@ -82,7 +82,7 @@ def CmapParse (cmap_files, result):
 		# let's make subgraphs of all hierarchies
 		# i think we can use these subgraphs to do some
 		# operations and check out cross links
-		hierarchy_list = G.successors ('Sustainability')
+		hierarchy_list = G.successors (root_concept.lower())
 		subgraph_list = []
 		for x in hierarchy_list:
 			subgraph = nx.MultiDiGraph ()
