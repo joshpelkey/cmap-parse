@@ -24,28 +24,32 @@ import networkx as nx
 
 def CmapParse (cmap_files, result, root_concept):
                 
+        # open the result file to write output
+        rfile = open(result, 'w')
+
         # iterate over all the files and start doing stuffs
 	for cmap_file in cmap_files:
 
 		# create an empty Multi-directed graph
 		G = nx.MultiDiGraph ()
 
-		# open a cmap text file
-		print ('>> Opening ' + cmap_file)
+		# open a cmap text file and begin writing results
 		f = open (cmap_file)
+		rfile.write('>> Opening ' + cmap_file + '\n')
 
 		# split the lines in to a list
 		lines = ((f.read ()).splitlines ())
 
 		# iterate over the list and split each line
 		# in to individual lists, delimited by tab
+		textFormatCorrect = True
 		for line in lines:
 			edge = line.split ('\t')
 
                         # break if not 3 items per line
                         textFormatCorrect = True
 			if len(edge) != 3:
-                                print ('>> Text file not formatted correctly.')
+                                rfile.write('>> Text file not formatted correctly.\n\n')
                                 textFormatCorrect = False
                                 break
 
@@ -53,12 +57,12 @@ def CmapParse (cmap_files, result, root_concept):
 
 		# if the file had a line without 3 items, break completely
                 if not textFormatCorrect:
-                        break
+                        continue
 
 		# if 'Sustainability' isn't a concept, fail
 		if root_concept.lower() not in G:
-			print ('>> ' + root_concept.lower() + ' not a concept in the map.')
-			break
+			rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n\n')
+			continue
 			
 		# number of concepts is the number of nodes
 		# minus the root node
@@ -141,18 +145,21 @@ def CmapParse (cmap_files, result, root_concept):
 
 
 		# print out the stuffs
-		print ('>> Num Concepts: ' + str (num_concepts))
-		print ('>> Hierarchy: ' + str (hierarchy))
-		print ('>> HH: ' + str (highest_hier))
-		print ('>> CL: ' + str (total_crosslinks))
+		rfile.write('>> Num Concepts: ' + str (num_concepts) + '\n')
+		rfile.write('>> Hierarchy: ' + str (hierarchy) + '\n')
+		rfile.write('>> HH: ' + str (highest_hier) + '\n')
+		rfile.write('>> CL: ' + str (total_crosslinks) + '\n')
 		
 		# show me cycles
 		#print ('>> Cycles: ' + str (nx.simple_cycles (G)))
 
 		# make it pretty
-		print ('\n')
+		rfile.write('\n')
 
-		# close up the file
+		# close up the cmap file
 		f.close()
+
+	# close the result file
+	rfile.close()
 	
 # eof.zomg

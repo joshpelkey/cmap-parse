@@ -202,6 +202,9 @@ class Example(wx.Frame):
         else:
             root_concept = self.tc1.GetValue ()
             cmap_parse.CmapParse (cmap_files, results, root_concept)
+            dlg = wx.MessageDialog( self, "Your results are ready!", "Complete!", wx.OK)
+            dlg.ShowModal()
+            dlg.Destroy()
 
 
     # Help text
