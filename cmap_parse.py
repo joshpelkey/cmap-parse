@@ -23,14 +23,8 @@ import networkx as nx
 
 
 def CmapParse (cmap_files, result):
-
-	# choose directory where cmap txt files are located
-	#cmap_directory = './cmaps'
-
-	# get the files
-	#files = glob.glob (cmap_directory + '/*.txt')
-
-	# iterate over all the files and start doing stuffs
+                
+        # iterate over all the files and start doing stuffs
 	for cmap_file in cmap_files:
 
 		# create an empty Multi-directed graph
@@ -47,7 +41,19 @@ def CmapParse (cmap_files, result):
 		# in to individual lists, delimited by tab
 		for line in lines:
 			edge = line.split ('\t')
+
+                        # break if not 3 items per line
+                        textFormatCorrect = True
+			if len(edge) != 3:
+                                print ('>> Text file not formatted correctly.')
+                                textFormatCorrect = False
+                                break
+                        
 			G.add_edge (edge[0], edge[2], link=edge[1])
+
+		# if the file had a line without 3 items, break completely
+                if not textFormatCorrect:
+                        break
 
 		# if 'Sustainability' isn't a concept, fail
 		if 'Sustainability' not in G:
@@ -139,10 +145,14 @@ def CmapParse (cmap_files, result):
 		print ('>> Hierarchy: ' + str (hierarchy))
 		print ('>> HH: ' + str (highest_hier))
 		print ('>> CL: ' + str (total_crosslinks))
+		
 		# show me cycles
 		#print ('>> Cycles: ' + str (nx.simple_cycles (G)))
 
 		# make it pretty
 		print ('\n')
+
+		# close up the file
+		f.close()
 	
 # eof.zomg
