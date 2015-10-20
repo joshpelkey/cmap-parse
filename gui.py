@@ -75,7 +75,7 @@ class Example(wx.Frame):
 
 
         # Export the results choice
-        text4 = wx.StaticText(panel, label="Save results to...")
+        text4 = wx.StaticText(panel, label="Save results as...")
         sizer.Add(text4, pos=(4, 0), flag=wx.TOP|wx.LEFT, border=10)
 
         self.tc3 = wx.TextCtrl(panel, style=wx.TE_READONLY)
@@ -132,7 +132,7 @@ class Example(wx.Frame):
         # Finally, if the directory is changed in the process of getting files, this
         # dialog is set up to change the current working directory to the path chosen.
         dlg = wx.FileDialog(
-            self, message="Choose a file",
+            self, message="Select concept maps",
             defaultDir=os.getcwd(), 
             defaultFile="",
             wildcard="Text files (*.txt)|*.txt",
@@ -167,7 +167,7 @@ class Example(wx.Frame):
         # Finally, if the directory is changed in the process of getting files, this
         # dialog is set up to change the current working directory to the path chosen.
         dlg = wx.FileDialog(
-            self, message="Save your results",
+            self, message="Save results as",
             defaultDir=os.getcwd(), 
             defaultFile="CmapResults.txt",
             style=wx.SAVE | wx.OVERWRITE_PROMPT
