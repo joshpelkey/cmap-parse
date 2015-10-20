@@ -142,16 +142,17 @@ class Example(wx.Frame):
         
         # Show the dialog and retrieve the user response. If it is the OK response, 
         # process the data.
+        filenames = list()
         if dlg.ShowModal() == wx.ID_OK:
             # set us up the file to pass in
             global cmap_files
             cmap_files = dlg.GetPaths()
             filenames = dlg.GetFilenames()
 
-        if len(filenames) > 1:
-            self.tc2.ChangeValue(filenames[0] + ' + ' + str(len(cmap_files)-1) + ' more files')
-        else:
-            self.tc2.ChangeValue(filenames[0])
+            if len(filenames) > 1:
+                self.tc2.ChangeValue(filenames[0] + ' + ' + str(len(cmap_files)-1) + ' more files')
+            else:
+                self.tc2.ChangeValue(filenames[0])
 
         # Destroy the dialog. Don't do this until you are done with it!
         # BAD things can happen otherwise!
@@ -180,7 +181,7 @@ class Example(wx.Frame):
             global results
             results = dlg.GetPath()
 
-        self.tc3.ChangeValue(results)
+            self.tc3.ChangeValue(results)
 
         # Destroy the dialog. Don't do this until you are done with it!
         # BAD things can happen otherwise!
