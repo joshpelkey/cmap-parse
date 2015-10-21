@@ -23,6 +23,7 @@ import cmap_parse
 
 cmap_files = []
 results = ''
+filenames = []
 
 class Example(wx.Frame):
 
@@ -142,10 +143,9 @@ class Example(wx.Frame):
         
         # Show the dialog and retrieve the user response. If it is the OK response, 
         # process the data.
-        filenames = list()
         if dlg.ShowModal() == wx.ID_OK:
             # set us up the file to pass in
-            global cmap_files
+            global cmap_files, filenames
             cmap_files = dlg.GetPaths()
             filenames = dlg.GetFilenames()
 
@@ -202,7 +202,7 @@ class Example(wx.Frame):
             
         else:
             root_concept = self.tc1.GetValue ()
-            cmap_parse.CmapParse (cmap_files, results, root_concept)
+            cmap_parse.CmapParse (cmap_files, results, filenames, root_concept)
             dlg = wx.MessageDialog( self, "Your results are ready!", "Complete!", wx.OK)
             dlg.ShowModal()
             dlg.Destroy()
