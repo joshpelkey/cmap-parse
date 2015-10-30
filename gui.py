@@ -211,7 +211,7 @@ class Example(wx.Frame):
     # Help text
     def OnHelp(self,e):
         # A message dialog box with an OK button. wx.OK is a standard ID in wxWidgets.
-        dlg = wx.MessageDialog( self, "cmap-parse.py\n\
+        dlg = wx.MessageDialog( self, "cmap-parse\n\
 An attempt to parse concept maps, exported from cmap tools...take one\n\
 ------------------------------------------------------------------------------------------\n\n\
 Step 1: Set your root node name. This is the 'top' of your concept map. We will start at this node for many calculations.\n\n\

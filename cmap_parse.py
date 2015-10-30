@@ -1,6 +1,6 @@
 ##
 #
-# cmap-parse.py
+# cmap_parse.py
 # An attempt to parse concept maps, exported from cmap tools...take one
 #
 # Copyright 2015 Josh Pelkey
@@ -60,7 +60,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 if not textFormatCorrect:
                         continue
 
-                # if 'Sustainability' isn't a concept, fail
+                # if 'sustainability' isn't a concept, fail
                 if root_concept.lower() not in G:
                         rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n\n')
                         continue
@@ -70,7 +70,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 num_concepts = G.order () - 1
 
                 # hierarchy is the out degree of the root node
-                # we assume the root is 'Sustainabiliy'
+                # we assume the root is 'sustainabiliy'
                 hierarchy = G.out_degree (root_concept.lower())
 
                 # look at all paths from sustainability to all 
@@ -85,7 +85,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 
 
                 # let's make subgraphs of all hierarchies
-                # i think we can use these subgraphs to do some
+                # we can use these subgraphs to do some
                 # operations and check out cross links
                 hierarchy_list = G.successors (root_concept.lower())
                 subgraph_list = []
@@ -96,9 +96,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                 if nx.has_path (G, x, y):
                                         connected_nodes.append (y)
                                         
-                        # the only reason i'm copying the whole graph here
-                        # is to set the name attribute right now (for debugging, testing)
-                        # we can remove this full copy at the end for efficiency
                         subgraph = G.subgraph(connected_nodes).copy ()  
                         subgraph.graph['name'] = x
                         subgraph_list.append (subgraph)
@@ -116,7 +113,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                 x.node[y]['hier'] = 0
                                 #print (y)
 
-                # re-iterate and set heir to an incrementing number across hierarchies,
+                # re-iterate and set hier to an incrementing number across hierarchies,
                 # only if it wasn't set previously (i.e. not part of another hierarchy already)
                 hierIter = 1
                 for x in subgraph_list:                         
@@ -134,7 +131,9 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         hierIter += 1
                         #print (x.nodes())
 
-                # now i need to find all edges that have two hier node attributes that don't match. these are crosslinks
+                # now i need to find all edges that have
+                # two hier node attributes that don't match.
+                # these are crosslinks
                 total_crosslinks = 0
                 for x in G.edges():
                         if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
@@ -142,8 +141,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                         #print (str (x[0]) + ' ---- ' + str (x[1]) + 'hier: ' + str (G.node[x[0]]['hier']) + '---- ' + str (G.node[x[1]]['hier']))
                                         total_crosslinks += 1
                         
-
-
 
                 # print out the stuffs
                 rfile.write(str (num_concepts) + '\t')
