@@ -101,34 +101,60 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         subgraph_list.append (subgraph)
 
 
-                # iterate through the main graph and set all hier attr to zero
+                # iterate through the main graph and set hierarchy to zero for now
                 for x in G:
                         G.node[x]['hier'] = 0
-                        #print (x)
+
                                 
                 # iterate through the subgraph_list and set all hier attr to zero
                 for x in subgraph_list:
-                        #for all the nodes in a subgraph
-                        for y in x:             
+                        # for all the nodes in a subgraph, set to zero for now
+                        for y in x:
                                 x.node[y]['hier'] = 0
-                                #print (y)
+
+
+                # iterate through the top hierarchy in the main graph and set these first-level hierarchy
+                # concepts to an incrementing integer
+                hierIter = 1
+                for x in hierarchy_list:
+                        G.node[x]['hier'] = hierIter
+                        hierIter += 1
+
+                # iterate through the top hierarchy in all the subgraphs and set these first-level
+                # hierarchy conepts to an incrementing integer
+                hierIter = 1
+                for x in subgraph_list:
+                        for y in x:
+                                if y in hierarchy_list:
+                                        if x.node[y]['hier'] == 0:
+                                                x.node[y]['hier'] = hierIter
+                        hierIter += 1
 
                 # re-iterate and set hier to an incrementing number across hierarchies,
                 # only if it wasn't set previously (i.e. not part of another hierarchy already)
+                # I THINK I NEED TO PICK ROOT NODE IN SUBGRAPH_LIST AND CHECK HIER THEN SET ALL IN
+                # SUBGRAPH TO THAT HIER
                 hierIter = 1
-                for x in subgraph_list:                         
+                for x in subgraph_list:
+                        print x.name
+                        print x.node[x.name]['hier']
                         for y in x:
-                                if x.node[y]['hier'] == 0:
-                                        for item in subgraph_list:
-                                                if y in item:
-                                                        item.node[y]['hier'] = hierIter
-                                                        G.node[y]['hier'] = hierIter
+                                x.node[y]['hier'] = x.node[x.name]['hier']
+                        
+                #hierIter = 1
+                #for x in subgraph_list:                         
+                #        for y in x:
+                #                if x.node[y]['hier'] == 0:
+                #                        for item in subgraph_list:
+                #                                if y in item:
+                #                                        item.node[y]['hier'] = hierIter
+                #                                        G.node[y]['hier'] = hierIter
 
                                         #print (x.node[y]['hier'])
                                         #print (x.node[y])
                                         #print (G.node[y]['hier'])
                                         #print (y)
-                        hierIter += 1
+                #        hierIter += 1
                         #print (x.nodes())
 
                 # now i need to find all edges that have
@@ -138,7 +164,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 for x in G.edges():
                         if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
                                 if G.node[x[0]]['hier'] != G.node[x[1]]['hier']:
-                                        #print (str (x[0]) + ' ---- ' + str (x[1]) + 'hier: ' + str (G.node[x[0]]['hier']) + '---- ' + str (G.node[x[1]]['hier']))
+                                        print (str (x[0]) + ' ---- ' + str (x[1]) + ' hier: ' + str (G.node[x[0]]['hier']) + ' ---- ' + str (G.node[x[1]]['hier']))
                                         total_crosslinks += 1
                         
 
