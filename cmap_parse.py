@@ -126,18 +126,18 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 # pick the subgraph that was made with the chosen hierarchy
                 # label all concepts in that subgraph with the same number, with the exception of any concepts that are in the heirarchy list
                 for x in hierarchy_list:
-                        print 'Hier concept: ' + x
+                        #print 'Hier concept: ' + x
                         currentHierNumber = G.node[x]['hier']
-                        print 'Hier number: ' + str(currentHierNumber)
+                        #print 'Hier number: ' + str(currentHierNumber)
                         for y in subgraph_list:
                                 if y.name == x:
                                         for concept in y:
                                                 if concept not in hierarchy_list:
                                                         if G.node[concept]['hier'] == 0:
-                                                                print concept
+                                                                #print concept
                                                                 y.node[concept]['hier'] = currentHierNumber
                                                                 G.node[concept]['hier'] = currentHierNumber
-                                                                print y.node[concept]['hier']
+                                                                #print y.node[concept]['hier']
 
 
                 # now i need to find all edges that have
