@@ -120,42 +120,25 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         G.node[x]['hier'] = hierIter
                         hierIter += 1
 
-                # iterate through the top hierarchy in all the subgraphs and set these first-level
-                # hierarchy conepts to an incrementing integer
-                hierIter = 1
-                for x in subgraph_list:
-                        for y in x:
-                                if y in hierarchy_list:
-                                        if x.node[y]['hier'] == 0:
-                                                x.node[y]['hier'] = hierIter
-                        hierIter += 1
+                # iterate through the hierarchy list
+                # look at its number through the original graph
+                # iterate through the subgraph list
+                # pick the subgraph that was made with the chosen hierarchy
+                # label all concepts in that subgraph with the same number, with the exception of any concepts that are in the heirarchy list
+                for x in hierarchy_list:
+                        print 'Hier concept: ' + x
+                        currentHierNumber = G.node[x]['hier']
+                        print 'Hier number: ' + str(currentHierNumber)
+                        for y in subgraph_list:
+                                if y.name == x:
+                                        for concept in y:
+                                                if concept not in hierarchy_list:
+                                                        if G.node[concept]['hier'] == 0:
+                                                                print concept
+                                                                y.node[concept]['hier'] = currentHierNumber
+                                                                G.node[concept]['hier'] = currentHierNumber
+                                                                print y.node[concept]['hier']
 
-                # re-iterate and set hier to an incrementing number across hierarchies,
-                # only if it wasn't set previously (i.e. not part of another hierarchy already)
-                # I THINK I NEED TO PICK ROOT NODE IN SUBGRAPH_LIST AND CHECK HIER THEN SET ALL IN
-                # SUBGRAPH TO THAT HIER
-                hierIter = 1
-                for x in subgraph_list:
-                        print x.name
-                        print x.node[x.name]['hier']
-                        for y in x:
-                                x.node[y]['hier'] = x.node[x.name]['hier']
-                        
-                #hierIter = 1
-                #for x in subgraph_list:                         
-                #        for y in x:
-                #                if x.node[y]['hier'] == 0:
-                #                        for item in subgraph_list:
-                #                                if y in item:
-                #                                        item.node[y]['hier'] = hierIter
-                #                                        G.node[y]['hier'] = hierIter
-
-                                        #print (x.node[y]['hier'])
-                                        #print (x.node[y])
-                                        #print (G.node[y]['hier'])
-                                        #print (y)
-                #        hierIter += 1
-                        #print (x.nodes())
 
                 # now i need to find all edges that have
                 # two hier node attributes that don't match.
