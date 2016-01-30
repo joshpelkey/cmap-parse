@@ -3,7 +3,7 @@
 # gui.py
 # An attempt to parse concept maps, exported from cmap tools...take one
 #
-# Copyright 2015 Josh Pelkey
+# Copyright 2016 Josh Pelkey
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 # in compliance with the License. You may obtain a copy of the License at
