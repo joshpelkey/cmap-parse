@@ -95,6 +95,8 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                 paths_list.append (path)
 
                 # highest hierarchy defined here as the max path length
+                # this is a bit different than how it's done manually
+                # discuss later
                 highest_hier = max (len (x) for x in paths_list) - 1
                 
 
@@ -114,16 +116,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         subgraph_list.append (subgraph)
 
 
-
-
-                                
-                # iterate through the subgraph_list and set all hier attr to zero
-                #for x in subgraph_list:
-                #        # for all the nodes in a subgraph, set to zero for now
-                #        for y in x:
-                #                x.node[y]['hier'] = 0
-
-
                 # for node not in first-level hierarchy, check which
                 # of the first-level concepts is closest (shortest path)
                 # and then label it with that hierarchy
@@ -132,7 +124,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         shortest_path = 0
                         assoc_hier = ''
                         if n not in (hierarchy_list, root_concept.lower ()):
-                                #print 'node: ' + n
                                 path_list = []
                                 for y in hierarchy_list:
                                         if nx.has_path (G, y, n):
@@ -144,10 +135,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                                         if (len (path_list) < shortest_path):
                                                                 assoc_hier = y
                                                                 shortest_path = len (path_list)
-                                                        
-                                                #print path_list
                                                 
-                                #print 'shortest hier: ' + assoc_hier
                                 if assoc_hier:
                                         G.node[n]['hier'] = G.node[assoc_hier]['hier']
                                         #print G.node[n]['hier']
@@ -161,27 +149,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 if fail:
                         continue
                                 
-
-                # iterate through the hierarchy list
-                # look at its number through the original graph
-                # iterate through the subgraph list
-                # pick the subgraph that was made with the chosen hierarchy
-                # label all concepts in that subgraph with the same number, with the exception of any concepts that are in the heirarchy list
-                #for x in hierarchy_list:
-                #        print 'Hier concept: ' + x
-                #        currentHierNumber = G.node[x]['hier']
-                #        print 'Hier number: ' + str(currentHierNumber)
-                #        for y in subgraph_list:
-                #                if y.name == x:
-                #                        for concept in y:
-                #                                if concept not in hierarchy_list:
-                #                                        if G.node[concept]['hier'] == 0:
-                #                                                print concept
-                #                                                y.node[concept]['hier'] = currentHierNumber
-                #                                                G.node[concept]['hier'] = currentHierNumber
-                #                                                print y.node[concept]['hier']
-
-
                 # now i need to find all edges that have
                 # two hier node attributes that don't match.
                 # these are crosslinks
@@ -189,7 +156,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 for x in G.edges():
                         if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
                                 if G.node[x[0]]['hier'] != G.node[x[1]]['hier']:
-                                        print (str (x[0]) + ' ---- ' + str (x[1]) + ' hier: ' + str (G.node[x[0]]['hier']) + ' ---- ' + str (G.node[x[1]]['hier']))
                                         total_crosslinks += 1
                         
 
