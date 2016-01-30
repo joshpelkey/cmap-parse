@@ -64,6 +64,20 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 if root_concept.lower() not in G:
                         rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n\n')
                         continue
+
+                # store first-level hierarchy concepts
+                hierarchy_list = G.successors (root_concept.lower())
+
+                # iterate through the main graph and set hierarchy to zero for now
+                for x in G:
+                        G.node[x]['hier'] = 0
+
+                # iterate through the top hierarchy in the main graph and set these first-level hierarchy
+                # concepts to an incrementing integer
+                hierIter = 1
+                for x in hierarchy_list:
+                        G.node[x]['hier'] = hierIter
+                        hierIter += 1
                         
                 # number of concepts is the number of nodes
                 # minus the root node
@@ -81,13 +95,14 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                 paths_list.append (path)
 
                 # highest hierarchy defined here as the max path length
+                # this is a bit different than how it's done manually
+                # discuss later
                 highest_hier = max (len (x) for x in paths_list) - 1
                 
 
                 # let's make subgraphs of all hierarchies
                 # we can use these subgraphs to do some
                 # operations and check out cross links
-                hierarchy_list = G.successors (root_concept.lower())
                 subgraph_list = []
                 for x in hierarchy_list:
                         subgraph = nx.MultiDiGraph ()
@@ -101,36 +116,39 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         subgraph_list.append (subgraph)
 
 
-                # iterate through the main graph and set all hier attr to zero
-                for x in G:
-                        G.node[x]['hier'] = 0
-                        #print (x)
+                # for node not in first-level hierarchy, check which
+                # of the first-level concepts is closest (shortest path)
+                # and then label it with that hierarchy
+                fail = False
+                for n in G.nodes ():
+                        shortest_path = 0
+                        assoc_hier = ''
+                        if n not in (hierarchy_list, root_concept.lower ()):
+                                path_list = []
+                                for y in hierarchy_list:
+                                        if nx.has_path (G, y, n):
+                                                path_list = nx.shortest_path (G, y, n)
+                                                if shortest_path == 0:
+                                                        assoc_hier = y
+                                                        shortest_path = len (path_list)
+                                                else:
+                                                        if (len (path_list) < shortest_path):
+                                                                assoc_hier = y
+                                                                shortest_path = len (path_list)
+                                                
+                                if assoc_hier:
+                                        G.node[n]['hier'] = G.node[assoc_hier]['hier']
+                                        #print G.node[n]['hier']
+                                else:
+                                        fail = True
+                                        rfile.write('>> One or more concepts not connected to first-level hierarchy. \n\n')
+                                        break
                                 
-                # iterate through the subgraph_list and set all hier attr to zero
-                for x in subgraph_list:
-                        #for all the nodes in a subgraph
-                        for y in x:             
-                                x.node[y]['hier'] = 0
-                                #print (y)
-
-                # re-iterate and set hier to an incrementing number across hierarchies,
-                # only if it wasn't set previously (i.e. not part of another hierarchy already)
-                hierIter = 1
-                for x in subgraph_list:                         
-                        for y in x:
-                                if x.node[y]['hier'] == 0:
-                                        for item in subgraph_list:
-                                                if y in item:
-                                                        item.node[y]['hier'] = hierIter
-                                                        G.node[y]['hier'] = hierIter
-
-                                        #print (x.node[y]['hier'])
-                                        #print (x.node[y])
-                                        #print (G.node[y]['hier'])
-                                        #print (y)
-                        hierIter += 1
-                        #print (x.nodes())
-
+                # a concept was not connected to a first-level hierarchy
+                # move on to the next concept map
+                if fail:
+                        continue
+                                
                 # now i need to find all edges that have
                 # two hier node attributes that don't match.
                 # these are crosslinks
@@ -138,7 +156,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 for x in G.edges():
                         if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
                                 if G.node[x[0]]['hier'] != G.node[x[1]]['hier']:
-                                        #print (str (x[0]) + ' ---- ' + str (x[1]) + 'hier: ' + str (G.node[x[0]]['hier']) + '---- ' + str (G.node[x[1]]['hier']))
                                         total_crosslinks += 1
                         
 
