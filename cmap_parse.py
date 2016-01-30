@@ -64,6 +64,20 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 if root_concept.lower() not in G:
                         rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n\n')
                         continue
+
+                # store first-level hierarchy concepts
+                hierarchy_list = G.successors (root_concept.lower())
+
+                # iterate through the main graph and set hierarchy to zero for now
+                for x in G:
+                        G.node[x]['hier'] = 0
+
+                # iterate through the top hierarchy in the main graph and set these first-level hierarchy
+                # concepts to an incrementing integer
+                hierIter = 1
+                for x in hierarchy_list:
+                        G.node[x]['hier'] = hierIter
+                        hierIter += 1
                         
                 # number of concepts is the number of nodes
                 # minus the root node
@@ -87,7 +101,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 # let's make subgraphs of all hierarchies
                 # we can use these subgraphs to do some
                 # operations and check out cross links
-                hierarchy_list = G.successors (root_concept.lower())
                 subgraph_list = []
                 for x in hierarchy_list:
                         subgraph = nx.MultiDiGraph ()
@@ -101,43 +114,72 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                         subgraph_list.append (subgraph)
 
 
-                # iterate through the main graph and set hierarchy to zero for now
-                for x in G:
-                        G.node[x]['hier'] = 0
+
 
                                 
                 # iterate through the subgraph_list and set all hier attr to zero
-                for x in subgraph_list:
-                        # for all the nodes in a subgraph, set to zero for now
-                        for y in x:
-                                x.node[y]['hier'] = 0
+                #for x in subgraph_list:
+                #        # for all the nodes in a subgraph, set to zero for now
+                #        for y in x:
+                #                x.node[y]['hier'] = 0
 
 
-                # iterate through the top hierarchy in the main graph and set these first-level hierarchy
-                # concepts to an incrementing integer
-                hierIter = 1
-                for x in hierarchy_list:
-                        G.node[x]['hier'] = hierIter
-                        hierIter += 1
+                # for node not in first-level hierarchy, check which
+                # of the first-level concepts is closest (shortest path)
+                # and then label it with that hierarchy
+                fail = False
+                for n in G.nodes ():
+                        shortest_path = 0
+                        assoc_hier = ''
+                        if n not in (hierarchy_list, root_concept.lower ()):
+                                #print 'node: ' + n
+                                path_list = []
+                                for y in hierarchy_list:
+                                        if nx.has_path (G, y, n):
+                                                path_list = nx.shortest_path (G, y, n)
+                                                if shortest_path == 0:
+                                                        assoc_hier = y
+                                                        shortest_path = len (path_list)
+                                                else:
+                                                        if (len (path_list) < shortest_path):
+                                                                assoc_hier = y
+                                                                shortest_path = len (path_list)
+                                                        
+                                                #print path_list
+                                                
+                                #print 'shortest hier: ' + assoc_hier
+                                if assoc_hier:
+                                        G.node[n]['hier'] = G.node[assoc_hier]['hier']
+                                        #print G.node[n]['hier']
+                                else:
+                                        fail = True
+                                        rfile.write('>> One or more concepts not connected to first-level hierarchy. \n\n')
+                                        break
+                                
+                # a concept was not connected to a first-level hierarchy
+                # move on to the next concept map
+                if fail:
+                        continue
+                                
 
                 # iterate through the hierarchy list
                 # look at its number through the original graph
                 # iterate through the subgraph list
                 # pick the subgraph that was made with the chosen hierarchy
                 # label all concepts in that subgraph with the same number, with the exception of any concepts that are in the heirarchy list
-                for x in hierarchy_list:
-                        #print 'Hier concept: ' + x
-                        currentHierNumber = G.node[x]['hier']
-                        #print 'Hier number: ' + str(currentHierNumber)
-                        for y in subgraph_list:
-                                if y.name == x:
-                                        for concept in y:
-                                                if concept not in hierarchy_list:
-                                                        if G.node[concept]['hier'] == 0:
-                                                                #print concept
-                                                                y.node[concept]['hier'] = currentHierNumber
-                                                                G.node[concept]['hier'] = currentHierNumber
-                                                                #print y.node[concept]['hier']
+                #for x in hierarchy_list:
+                #        print 'Hier concept: ' + x
+                #        currentHierNumber = G.node[x]['hier']
+                #        print 'Hier number: ' + str(currentHierNumber)
+                #        for y in subgraph_list:
+                #                if y.name == x:
+                #                        for concept in y:
+                #                                if concept not in hierarchy_list:
+                #                                        if G.node[concept]['hier'] == 0:
+                #                                                print concept
+                #                                                y.node[concept]['hier'] = currentHierNumber
+                #                                                G.node[concept]['hier'] = currentHierNumber
+                #                                                print y.node[concept]['hier']
 
 
                 # now i need to find all edges that have
