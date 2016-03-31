@@ -219,7 +219,7 @@ Step 2: Choose your cmap files. These must be txt files, exported 'Propositions 
 Step 3: Choose your export path and filename. Results will be exported as plain-text.\n\n\
 Step 4: Click Run and go view your results!\n\n\
 ------------------------------------------------------------------------------------------\n\
-Copyright 2015 Josh Pelkey\n\n\
+Copyright 2016 Josh Pelkey\n\n\
 Licensed under the Apache License, Version 2.0 (the \"License\"); you may not\n\
 use this file except in compliance with the License. You may obtain a copy of\n\
 the License at\n\n\
