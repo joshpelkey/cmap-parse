@@ -34,6 +34,9 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 # create an empty Multi-directed graph
                 G = nx.MultiDiGraph ()
 
+                # check if this is a txt (propositions as text) or cxl file
+                # if cxl file, we need to first convert it
+
                 # open a cmap text file and begin writing results
                 f = open (cmap_file)
                 rfile.write(filenames[index] + '\t')
@@ -156,6 +159,7 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 for x in G.edges():
                         if ((G.node[x[0]]['hier']) != 0) and ((G.node[x[1]]['hier']) != 0):
                                 if G.node[x[0]]['hier'] != G.node[x[1]]['hier']:
+                                        #print (str (x[0]) + ' ---- ' + str (x[1]) + ' hier: ' + str (G.node[x[0]]['hier']) + ' ---- ' + str (G.node[x[1]]['hier']))
                                         total_crosslinks += 1
                         
 
