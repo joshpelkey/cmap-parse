@@ -101,7 +101,6 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                                 edge = line.split ('\t')
 
                                 # break if not 3 items per line
-                                textFormatCorrect = True
                                 if len(edge) != 3:
                                         rfile.write('>> Text file not formatted correctly.\n\n')
                                         textFormatCorrect = False
