@@ -91,14 +91,15 @@ class Example(wx.Frame):
         sb = wx.StaticBox(panel, label="Optional Attributes")
 
         boxsizer = wx.StaticBoxSizer(sb, wx.VERTICAL)
-        boxsizer.Add(wx.CheckBox(panel, label=" Use The Force"), 
+        global export_checkbox
+        export_checkbox = wx.CheckBox(panel, label=" Export Concepts")
+        boxsizer.Add(export_checkbox, 
             flag=wx.LEFT|wx.TOP, border=5)
-        boxsizer.Add(wx.CheckBox(panel, label=" Cast Hogwarts Spell"),
-            flag=wx.LEFT, border=5)
-        boxsizer.Add(wx.CheckBox(panel, label=" Enter the Matrix"), 
-            flag=wx.LEFT|wx.BOTTOM, border=5)
-        sizer.Add(boxsizer, pos=(5, 0), span=(1, 5), 
-            flag=wx.EXPAND|wx.TOP|wx.LEFT|wx.RIGHT , border=10)
+        #boxsizer.Add(wx.CheckBox(panel, label=" Cast Hogwarts Spell"),
+            #flag=wx.LEFT, border=5)
+        #boxsizer.Add(wx.CheckBox(panel, label=" Enter the Matrix"), 
+            #flag=wx.LEFT|wx.BOTTOM, border=5)
+        sizer.Add(boxsizer, pos=(5, 0), span=(1, 5), flag=wx.EXPAND|wx.TOP|wx.LEFT|wx.RIGHT , border=10)
 
         # Halp!
         button3 = wx.Button(panel, label='Help')
@@ -202,7 +203,7 @@ class Example(wx.Frame):
             
         else:
             root_concept = self.tc1.GetValue ()
-            cmap_parse.CmapParse (cmap_files, results, filenames, root_concept)
+            cmap_parse.CmapParse (cmap_files, results, filenames, root_concept, export_checkbox.GetValue())
             dlg = wx.MessageDialog( self, "Your results are ready!", "Complete!", wx.OK)
             dlg.ShowModal()
             dlg.Destroy()
@@ -217,7 +218,7 @@ An attempt to parse concept maps, exported from cmap tools...take one\n\
 Step 1: Set your root node name. This is the 'top' of your concept map. We will start at this node for many calculations.\n\n\
 Step 2: Choose your cmap files. These must either be cxl files (recommended, as they are easier to export in bulk from Cmap Tools), or txt files exported 'Propositions as text...' from Cmap Tools.\n\n\
 Step 3: Choose your export path and filename. Results will be exported as plain-text.\n\n\
-Step 4: Click Run and go view your results!\n\n\
+Step 4: Click Run and go view your results! It's best to copy/paste them in to a spreadsheet.\n\n\
 ------------------------------------------------------------------------------------------\n\
 Copyright 2016 Josh Pelkey\n\n\
 Licensed under the Apache License, Version 2.0 (the \"License\"); you may not\n\

@@ -68,11 +68,17 @@ def CxlConversion (file):
         return concepts_linked
 
         
-def CmapParse (cmap_files, result, filenames, root_concept):
+def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                 
         # open the result file to write output
         rfile = open(result, 'w')
-        rfile.write('Filename\t\t NC\t NH\t HH\t NCL\t\n\n')
+        rfile.write('Filename\t Num Concepts\t Num Hierarchies\t Highest Hierarchy\t Num Crosslinks\t')
+
+        # if printing concepts
+        if export_concepts:
+                rfile.write('Concepts\t\n\n')
+        else:
+                rfile.write('\n\n')
 
         # iterate over all the files and start doing stuffs
         for index, cmap_file in enumerate(cmap_files):
@@ -217,7 +223,15 @@ def CmapParse (cmap_files, result, filenames, root_concept):
                 rfile.write(str (num_concepts) + '\t')
                 rfile.write(str (hierarchy) + '\t')
                 rfile.write(str (highest_hier) + '\t')
-                rfile.write(str (total_crosslinks) + '\t\n')
+                rfile.write(str (total_crosslinks) + '\t')
+
+                # if exporting concepts, print out the concepts
+                if export_concepts:
+                        for n in G.nodes ():
+                                rfile.write(str (n) + '\t')
+
+                # make it pretty
+                rfile.write('\n')
                 
                 # show me cycles
                 #print ('>> Cycles: ' + str (nx.simple_cycles (G)))
