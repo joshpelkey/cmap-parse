@@ -2,6 +2,8 @@
 
 Some stuff here about what this is -- which is just a concept mapping parsing script. It counts number of concepts, number of hierarchies, highest hierarchy, and number of crosslinks. cmap_parse contains the logic for parsing the concept maps, while gui.py leverages wxwidgets to allow for easy selection of cmaps and running the script in Windows.
 
+If you want to run the executable, download the CmapParse zipfile, extract, and run CmapParse.exe.
+
 Copyright 2016 Josh Pelkey
 
 Licensed under the Apache License, Version 2.0 (the "License");
