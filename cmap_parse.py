@@ -70,15 +70,12 @@ def CxlConversion (file):
         
 def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                 
+        # store all concepts to print later
+        all_concepts = []
+        
         # open the result file to write output
         rfile = open(result, 'w')
-        rfile.write('Filename\t Num Concepts\t Num Hierarchies\t Highest Hierarchy\t Num Crosslinks\t')
-
-        # if printing concepts
-        if export_concepts:
-                rfile.write('Concepts\t\n\n')
-        else:
-                rfile.write('\n\n')
+        rfile.write('Filename\t Num Concepts\t Num Hierarchies\t Highest Hierarchy\t Num Crosslinks\t\n\n')
 
         # iterate over all the files and start doing stuffs
         for index, cmap_file in enumerate(cmap_files):
@@ -108,7 +105,7 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
 
                                 # break if not 3 items per line
                                 if len(edge) != 3:
-                                        rfile.write('>> Text file not formatted correctly.\n\n')
+                                        rfile.write('>> Text file not formatted correctly.\n')
                                         textFormatCorrect = False
                                         break
 
@@ -121,7 +118,7 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
 
                 # if 'sustainability' isn't a concept, fail
                 if root_concept.lower() not in G:
-                        rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n\n')
+                        rfile.write('>> ' + root_concept.lower() + ' not a concept in the map.\n')
                         continue
 
                 # store first-level hierarchy concepts
@@ -200,7 +197,7 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                                         #print G.node[n]['hier']
                                 else:
                                         fail = True
-                                        rfile.write('>> One or more concepts not connected to first-level hierarchy. \n\n')
+                                        rfile.write('>> One or more concepts not connected to first-level hierarchy. \n')
                                         break
                                 
                 # a concept was not connected to a first-level hierarchy
@@ -225,10 +222,9 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                 rfile.write(str (highest_hier) + '\t')
                 rfile.write(str (total_crosslinks) + '\t')
 
-                # if exporting concepts, print out the concepts
+                # if exporting concepts, store the concepts
                 if export_concepts:
-                        for n in G.nodes ():
-                                rfile.write(str (n) + '\t')
+                        all_concepts.append(G.nodes())
 
                 # make it pretty
                 rfile.write('\n')
@@ -238,6 +234,24 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
 
                 # close up the cmap file
                 f.close()
+
+        # if exporting concepts, print them out
+        rfile.write('\n')
+        if export_concepts:
+                for filename in filenames:
+                        rfile.write(filename + '\t')
+                rfile.write('\n')
+
+                # transpose to columns and write
+                transposed_all_concepts = map(lambda *row: list(row), *all_concepts)
+                for x, concepts in enumerate(transposed_all_concepts):
+                        for concept in transposed_all_concepts[x]:
+                                if concept:
+                                        #stripping these &#xa; characters, some cxl files seem to have for some reason
+                                        rfile.write(concept.replace('&#xa;', ' ') + '\t')
+                                else:
+                                        rfile.write('\t')
+                        rfile.write('\n')
 
 	# close the result file
         rfile.close()
