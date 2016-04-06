@@ -200,6 +200,10 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                                         rfile.write('>> One or more concepts not connected to first-level hierarchy. \n')
                                         break
                                 
+                # if exporting concepts, store the concepts
+                if export_concepts:
+                        all_concepts.append(G.nodes())
+                        
                 # a concept was not connected to a first-level hierarchy
                 # move on to the next concept map
                 if fail:
@@ -222,10 +226,6 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
                 rfile.write(str (highest_hier) + '\t')
                 rfile.write(str (total_crosslinks) + '\t')
 
-                # if exporting concepts, store the concepts
-                if export_concepts:
-                        all_concepts.append(G.nodes())
-
                 # make it pretty
                 rfile.write('\n')
                 
@@ -238,13 +238,16 @@ def CmapParse (cmap_files, result, filenames, root_concept, export_concepts):
         # if exporting concepts, print them out
         rfile.write('\n')
         if export_concepts:
+                rfile.write('Filename\t')
                 for filename in filenames:
                         rfile.write(filename + '\t')
                 rfile.write('\n')
+                rfile.write('Concepts')
 
                 # transpose to columns and write
                 transposed_all_concepts = map(lambda *row: list(row), *all_concepts)
                 for x, concepts in enumerate(transposed_all_concepts):
+                        rfile.write('\t')
                         for concept in transposed_all_concepts[x]:
                                 if concept:
                                         #stripping these &#xa; characters, some cxl files seem to have for some reason
